@@ -17,7 +17,7 @@ import usePreviewImg from "../Hooks/usePreviewImg";
 import useShowToast from "../Hooks/useShowToast";
 
 export default function UpdateProfilePage() {
-	const [user, setUser] = useRecoilState(UserAtom);
+	const [user, setUser] = useRecoilState(UserAtom)
 	const [inputs, setInputs] = useState({
 		name: user.name,
 		username: user.username,
@@ -34,6 +34,8 @@ export default function UpdateProfilePage() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		if(updating) return;
+		setUpdating(true)
 		if (updating) return;
 		setUpdating(true);
 		try {

@@ -55,7 +55,7 @@ import userAtom from '../Atoms/UserAtom'
 
            }
            localStorage.setItem("user-threads",JSON.stringify(data));
-          //  setUser(data);
+           setUser(data);
             }
             catch{
                 toast({
