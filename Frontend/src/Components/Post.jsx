@@ -12,29 +12,33 @@ import useShowToast from '../Hooks/useShowToast';
 
 const Post = ({post,postedBy}) => {
     const [liked,setLiked]=useState(false);
+    const [user, setUser] = useState(null);
 	const [loading,setLoading]=useState(true);
 	const showToast=useShowToast();
-	useEffect(()=>{
-		const getUser=async()=>{
-			try{
-				const res=await fetch("/api/users/profile/ " + postedBy);
-				const data=await res.json();
-				if(data.error){
-					showToast("Error",data.error,"error")
+    useEffect(() => {
+		const getUser = async () => {
+			try {
+				const res = await fetch("/api/users/profile/" + postedBy);
+				const data = await res.json();
+				if (data.error) {
+					showToast("Error", data.error, "error");
 					return;
 				}
+				setUser(data);
+			} catch (error) {
+				showToast("Error", error.message, "error");
+				setUser(null);
 			}
-			catch(error){
-				shoowToast("Error",error.message,"error")
-			}
-		}
-	},[postedBy,showToast])
-	
+		};
+
+		getUser();
+	}, [postedBy, showToast]);
+    if(!user) return null
   return (
     <Link to={"/markzuckerberg/post/1"}>
         <Flex gap={3} mb={4} py={5}>
             <Flex flexDirection={"column"} alignItems={"center"}>
-                <Avatar size="md" name="Mark Zuckerberg" src='/zuck-avatar.png'/>
+                <Avatar size="md" name={user.name} src={user?.profilePic}/>
                 <Box w="1px" h="full" bg="gray.light" my={2}>
 
                 </Box>
@@ -47,7 +51,7 @@ const Post = ({post,postedBy}) => {
             <Flex flex={1} flexDirection={"column"} gap={2}> 
             <Flex justifyContent={"space-between"} w={"full"}>
                 <Flex w={"full"} alignItems={"center"}>
-                    <Text fontSize={"sm"} fontWeight={"bold"}>markzuckerberg</Text> 
+                    <Text fontSize={"sm"} fontWeight={"bold"}>{user?.username}</Text> 
                 <Image src='/verified.png' w={4} h={4} ml={1}/> 
                 </Flex>
                 <Flex gap={"4"} alignItems={"center"}>

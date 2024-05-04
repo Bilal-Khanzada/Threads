@@ -5,12 +5,21 @@ import { useRecoilState } from 'recoil';
 import postsAtom from '../Atoms/postsAtom';
 import { Spinner } from '@chakra-ui/react';
 import Post from '../Components/Post';
+import {useNavigate} from "react-router-dom"
+import { IoHome } from "react-icons/io5";
+import { FaUserAlt } from "react-icons/fa";
 
 
-const Homepage = () => {
+
+
+
+
+const Homepage = ({user}) => {
 	const [posts, setPosts] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const navigate = useNavigate();
 	const showToast = useShowToast();
+
 	useEffect(() => {
 		const getFeedPosts = async () => {
 			setLoading(true);
@@ -32,6 +41,9 @@ const Homepage = () => {
 		};
 		getFeedPosts();
 	}, [showToast, setPosts]);
+	const handleClick = () => {
+		navigate(`/${user.username}`);
+	  };
 
   return (
 	<>
@@ -43,7 +55,12 @@ const Homepage = () => {
 	)}
 {posts.map((post) => (
 					<Post key={post._id} post={post} postedBy={post.postedBy} />
-				))}	</>
+				))}
+	<Button onClick={handleClick} position="fixed" top="30px" left="30px" size="small">
+	<FaUserAlt />
+    </Button>
+				
+					</>
   )
 }
 

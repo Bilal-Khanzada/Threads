@@ -18,7 +18,7 @@ function App() {
     <Container>
       <Header/>
       <Routes>
-        <Route path="/" element={user? <Homepage/>: <Navigate to="/auth"/>}/>
+        <Route path="/" element={user? <Homepage user={user}/>: <Navigate to="/auth"/>}/>
         <Route path="/auth" element={!user? <AuthPage/>: <Navigate to ="/"/>}/>
         <Route path="/update" element={user? <UpdateProfilepage/> : <Navigate to="/auth"/>}/>
 

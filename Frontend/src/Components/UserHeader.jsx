@@ -12,15 +12,21 @@ import { useRecoilState } from 'recoil';
 import userAtom from '../Atoms/UserAtom';
 import {Link as RouterLink} from "react-router-dom";
 import useShowToast from '../Hooks/useShowToast';
+import { HiOutlineLogin } from 'react-icons/hi';
+import { IoHome } from "react-icons/io5";
+import Homepage from '../Pages/Homepage';
+import { useNavigate } from 'react-router-dom';
 
 
 const UserHeader = ({user}) => {
     // const currentUser=useRecoilState(userAtom); 
     // console.log(currentUser._id);
     const currentUser = JSON.parse(localStorage.getItem("user-threads"));
+    const navigate = useNavigate();
     const [following,setFollowing]=useState(user.followers.includes(currentUser._id));
     const showToast=useShowToast();
-    const [updating,setUpdating]=useState(false)
+    const [updating,setUpdating]=useState(false);
+  
 
 
     // console.log(user._id)
@@ -37,6 +43,13 @@ const UserHeader = ({user}) => {
             }) 
             
         })
+        
+    }
+    const handleClick = () => {
+        navigate('/');
+      };
+    const handleshowhomepage=async()=>{
+        setHomePage(true);
     }
     const handleFollowUnfollow=async()=>{
         if (!currentUser) {
@@ -79,6 +92,8 @@ const UserHeader = ({user}) => {
     }
     // console.log(user); 
   return (
+    <>
+   
     <VStack gap={4} alignItems={"start"}>
         <Flex justifyContent={"space-between"} w={"full"}>
         <Box>
@@ -145,6 +160,12 @@ const UserHeader = ({user}) => {
 
             </Flex>
     </VStack>
+    <Button onClick={handleClick} position="fixed" top="30px" left="30px" size="small">
+      <IoHome size={20} />
+    </Button>
+  
+
+    </>
   )
 }
 
